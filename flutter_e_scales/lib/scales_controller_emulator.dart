@@ -12,15 +12,18 @@ import 'package:flutter/material.dart';
 ///
 /// final ValueNotifier<bool> _isStopUpdate = ValueNotifier(false);
 ///
-/// void _initSCE() {
+/// void _initSCE() async {
 ///   ScalesControllerEmulator().init(
 ///     serialDataListener: (value) {
-///       if (!_isRealMode.value) {
-///         _formController.text = value;
-///       }
+///       _formController.text = value;
 ///     },
 ///     isStopUpdate: _isStopUpdate,
 ///   );
+///
+///   await Future.delayed(const Duration(seconds: 10));
+///   _isStopUpdate.value = true;
+///   await Future.delayed(const Duration(seconds: 10));
+///   _isStopUpdate.value = false;
 /// }
 /// ```
 class ScalesControllerEmulator {
