@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 /// void _initSCE() async {
 ///   ScalesControllerEmulator().init(
 ///     serialDataListener: (value) {
-///       _formController.text = value;
+///       print(value);
 ///     },
 ///     isStopUpdate: _isStopUpdate,
 ///   );
