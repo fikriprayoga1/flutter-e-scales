@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 /// final ValueNotifier<bool> _isStopUpdate = ValueNotifier(false);
 ///
 /// void _initSCE() async {
-///   ScalesControllerEmulator().init(
+///   ScalesEmulator().init(
 ///     serialDataListener: (value) {
 ///       print(value);
 ///     },
@@ -26,15 +26,14 @@ import 'package:flutter/material.dart';
 ///   _isStopUpdate.value = false;
 /// }
 /// ```
-class ScalesControllerEmulator {
+class ScalesEmulator {
   Function(String data)? _serialDataListener;
   late ValueNotifier<bool> _isStopUpdate;
 
   // Singleton Pattern
-  static final ScalesControllerEmulator _instance =
-      ScalesControllerEmulator._internal();
-  ScalesControllerEmulator._internal();
-  factory ScalesControllerEmulator() {
+  static final ScalesEmulator _instance = ScalesEmulator._internal();
+  ScalesEmulator._internal();
+  factory ScalesEmulator() {
     return _instance;
   }
   // Singleton Pattern
@@ -58,18 +57,18 @@ class ScalesControllerEmulator {
 
   Future<void> _emulatorProcess() async {
     const Duration duration = Duration(milliseconds: 100);
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 10; i++) {
       await Future.delayed(
         duration,
         () {
           if (!_isStopUpdate.value) {
-            _serialDataListener?.call('0000.00 (kg)');
+            _serialDataListener?.call('wn0000.00kg');
           }
         },
       );
     }
 
-    for (var i = 0; i < 30; i++) {
+    for (var i = 0; i < 50; i++) {
       await Future.delayed(duration, () {
         if (!_isStopUpdate.value) {
           _serialDataListener?.call(randomWeight());
@@ -77,12 +76,23 @@ class ScalesControllerEmulator {
       });
     }
 
-    for (var i = 0; i < 30; i++) {
+    for (var i = 0; i < 10; i++) {
       await Future.delayed(
         duration,
         () {
           if (!_isStopUpdate.value) {
-            _serialDataListener?.call('00010.50 (kg)');
+            _serialDataListener?.call('wn0010.50kg');
+          }
+        },
+      );
+    }
+
+    for (var i = 0; i < 10; i++) {
+      await Future.delayed(
+        duration,
+        () {
+          if (!_isStopUpdate.value) {
+            _serialDataListener?.call('wn0009.00kg');
           }
         },
       );
@@ -93,18 +103,7 @@ class ScalesControllerEmulator {
         duration,
         () {
           if (!_isStopUpdate.value) {
-            _serialDataListener?.call('00009.00 (kg)');
-          }
-        },
-      );
-    }
-
-    for (var i = 0; i < 50; i++) {
-      await Future.delayed(
-        duration,
-        () {
-          if (!_isStopUpdate.value) {
-            _serialDataListener?.call('00010.00 (kg)');
+            _serialDataListener?.call('wn0010.00kg');
           }
         },
       );
@@ -118,9 +117,9 @@ class ScalesControllerEmulator {
     late String stringRandomNumberDecimal;
 
     if (randomNumber >= 10) {
-      stringRandomNumber = '000$randomNumber';
+      stringRandomNumber = '00$randomNumber';
     } else {
-      stringRandomNumber = '0000$randomNumber';
+      stringRandomNumber = '000$randomNumber';
     }
 
     if (randomNumberDecimal == 10) {
@@ -129,6 +128,6 @@ class ScalesControllerEmulator {
       stringRandomNumberDecimal = '0$randomNumberDecimal';
     }
 
-    return '$stringRandomNumber.$stringRandomNumberDecimal (kg)';
+    return 'wn$stringRandomNumber.$stringRandomNumberDecimal''kg';
   }
 }

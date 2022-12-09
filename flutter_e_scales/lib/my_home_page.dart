@@ -1,7 +1,9 @@
-import 'package:flutter_e_scales/scales_controller.dart';
-import 'package:flutter_e_scales/scales_controller_emulator.dart';
+import 'package:flutter_e_scales/core/scales_real.dart';
+import 'package:flutter_e_scales/core/scales_emulator.dart';
+import 'package:flutter_e_scales/core/helper.dart';
 import 'package:flutter_e_scales/size_unit.dart';
 import 'package:flutter/material.dart';
+import 'package:usb_serial_for_android/usb_serial_for_android.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -14,18 +16,39 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _formController = TextEditingController();
   final ValueNotifier<bool> _isRealMode = ValueNotifier(false);
   final ValueNotifier<bool> _isStopUpdate = ValueNotifier(false);
+  bool hasInitScalesReal = false;
 
   @override
   void initState() {
-    _initSCE();
+    _initScalesEmulator();
+    UsbSerial.usbEventStream?.listen((event) => _initScalesReal());
+
+    _initScalesReal();
     super.initState();
   }
 
-  void _initSCE() {
-    ScalesControllerEmulator().init(
+  @override
+  void dispose() {
+    ScalesReal().disconnect();
+    super.dispose();
+  }
+
+  void _initScalesReal() {
+    ScalesReal().init(
+      serialDataListener: (value) {
+        if (_isRealMode.value) {
+          _formController.text = value.ekanKg();
+        }
+      },
+      isStopUpdate: _isStopUpdate,
+    );
+  }
+
+  void _initScalesEmulator() {
+    ScalesEmulator().init(
       serialDataListener: (value) {
         if (!_isRealMode.value) {
-          _formController.text = value;
+          _formController.text = value.ekanKg();
         }
       },
       isStopUpdate: _isStopUpdate,
@@ -54,21 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               SizedBox(height: SizeUnit().height(100)),
               _switchButton(),
-              _isRealMode.value
-                  ? _realScales()
-                  : SizedBox(height: SizeUnit().height(100)),
+              SizedBox(height: SizeUnit().height(100)),
               _formSection(),
             ],
           );
         },
       ),
-    );
-  }
-
-  Widget _realScales() {
-    return ScalesController(
-      serialDataListener: (value) {},
-      isStopUpdate: _isStopUpdate,
     );
   }
 
