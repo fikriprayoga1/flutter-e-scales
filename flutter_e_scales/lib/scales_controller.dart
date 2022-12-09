@@ -1,6 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter_e_scales/size_unit.dart';
 import 'package:flutter/material.dart';
-import 'package:serial_communication/serial_communication.dart';
+
+// import 'package:usb_serial/usb_serial.dart';
+// import 'package:quick_usb/quick_usb.dart';
+// import 'package:flutter_libserialport/flutter_libserialport.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:serial_communication/serial_communication.dart';
 
 class ScalesController extends StatefulWidget {
   final Function(String data)? serialDataListener;
@@ -17,30 +24,41 @@ class ScalesController extends StatefulWidget {
 }
 
 class _ScalesControllerState extends State<ScalesController> {
-  final SerialCommunication _serialCommunication = SerialCommunication();
   final List<DropdownMenuItem<String>> _serialPortList = [];
   final ValueNotifier<String> _selectedPort = ValueNotifier('none');
 
   @override
   void initState() {
-    _serialCommunication.startSerial().listen((event) {
-      final logData = event.logChannel ?? "";
-      final receivedData = event.readChannel ?? "";
-    });
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final List<String>? _portList =
-          await _serialCommunication.getAvailablePorts();
-      print('debug_mode : $_serialPortList');
+      // List<UsbDevice> devices = await UsbSerial.listDevices();
+      // print('debug_mode : devices[1].deviceId => ${devices[1].deviceId}');
+      // print('debug_mode : devices[1].deviceName => ${devices[1].deviceName}');
 
-      if (_portList != null) {
-        for (var element in _portList) {
-          _serialPortList.add(
-            DropdownMenuItem(value: element, child: Text(element)),
-          );
-        }
-        setState(() {});
-      }
+      // UsbPort? port;
+      // if (devices.length == 0) {
+      //   return;
+      // }
+      // port = await devices[1].create();
+
+      // if(port != null) {
+      //   bool openResult = await port.open();
+      // if (!openResult) {
+      //   print("Failed to open");
+      //   return;
+      // }
+
+      // await port.setDTR(true);
+      // await port.setRTS(true);
+
+      // port.setPortParameters(
+      //     115200, UsbPort.DATABITS_8, UsbPort.STOPBITS_1, UsbPort.PARITY_NONE);
+
+      // // print first result and close port.
+      // port.inputStream?.listen((Uint8List event) {
+      //   print(event);
+      //   port?.close();
+      // });
+      // }
     });
 
     super.initState();
