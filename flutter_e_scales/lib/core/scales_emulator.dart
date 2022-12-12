@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-/// # Documentation
-/// - This class using Singleton Pattern. So, you can call this class anytime and will return same instance.
+/// ## Documentation
+/// - This class using Singleton Pattern. So, you can call this class anytime and will be return same instance.
 /// - There are two parameter in the init function :
 ///   1. First parameter is serialDataListener, You can use this parameter for listen the data from emulator.
 ///   2. Second parameter is isStopUpdate. You can use this parameter to start or stop listen data from emulator.
@@ -14,16 +14,14 @@ import 'package:flutter/material.dart';
 ///
 /// void _initSCE() async {
 ///   ScalesEmulator().init(
-///     serialDataListener: (value) {
-///       print(value);
-///     },
+///     serialDataListener: (value) => print(value),
 ///     isStopUpdate: _isStopUpdate,
 ///   );
 ///
 ///   await Future.delayed(const Duration(seconds: 10));
-///   _isStopUpdate.value = true;
+///   _isStopUpdate.value = true; // To stop update data
 ///   await Future.delayed(const Duration(seconds: 10));
-///   _isStopUpdate.value = false;
+///   _isStopUpdate.value = false; // To start listen data
 /// }
 /// ```
 class ScalesEmulator {
