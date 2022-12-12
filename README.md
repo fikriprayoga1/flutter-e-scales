@@ -1,6 +1,7 @@
  ## Documentation
 #### Note
 - ScalesReal class only for A12E type of Electronic Scales
+- ScalesReal class using 1200 of baudrate. Ensure your Electronic Scales in default setting or sync your Electronic Scales with 'baudRate' parameter in ScalesReal class.
 - ScalesReal class using Singleton Pattern. So, you can call this class anytime and will be return same instance.
 - There are two parameter in the init function :
     - First parameter is serialDataListener, You can use this parameter for listen the data from emulator.
