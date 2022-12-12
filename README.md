@@ -19,6 +19,7 @@ dependencies:
 2. Add this code below to your view class :
 ```
 final ValueNotifier<bool> _isStopUpdate = ValueNotifier(false);
+
 @override
 void initState() {
     UsbSerial.usbEventStream?.listen((event) => _initScalesReal());
