@@ -1,7 +1,7 @@
  ## Documentation
 #### Note
 - ScalesReal class only for A12E type of Electronic Scales
-- ScalesReal using Singleton Pattern. So, you can call this class anytime and will be return same instance.
+- ScalesReal class using Singleton Pattern. So, you can call this class anytime and will be return same instance.
 - There are two parameter in the init function :
     1. First parameter is serialDataListener, You can use this parameter for listen the data from emulator.
     2. Second parameter is isStopUpdate. You can use this parameter to start or stop listen data from emulator.
